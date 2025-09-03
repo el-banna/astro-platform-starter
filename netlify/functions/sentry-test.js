@@ -2,7 +2,11 @@ export default async (request, context) => {
     try {
         const data = await request.json();
         const sentryEventData = data?.data?.event;
-        const { title, web_url } = sentryEventData || {};
+        console.log(data);
+        const { title, web_url, contexts } = sentryEventData || {};
+
+        // we should ignore sending to the gchat channel if it's a simulator
+        const isSimulator = contexts?.device?.simulator;
 
         const payload = {
             text: `🚨 ${title} 🚨 \n\n${web_url}`
